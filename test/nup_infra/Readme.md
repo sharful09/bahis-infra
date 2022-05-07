@@ -1,6 +1,6 @@
 https://www.python4networkengineers.com/posts/python-intermediate/how_to_run_an_app_with_docker/
 ```
-docker compose update
+docker compose up
 ```
 and test:
 ```
