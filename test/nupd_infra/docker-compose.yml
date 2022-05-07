@@ -5,6 +5,8 @@ services:
   django:
     build: ./djangoapp
     restart: always
+    volumes:
+      - ./djangoapp/src/:/src
     depends_on:
       - db
 
