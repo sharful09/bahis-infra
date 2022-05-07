@@ -5,10 +5,16 @@ services:
   django:
     build: ./djangoapp
     restart: always
-    ports:
-      - "8004:8000"
     depends_on:
       - db
+
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "88:80"
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d
 
   db:
     image: postgres:13
