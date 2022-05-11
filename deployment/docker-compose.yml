@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  pgdb:
+    image: postgis/postgis
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - db:/var/lib/postgresql/data
+       # - ./db/init.sql:/docker-entrypoint-initdb.d/11_create_users.sql
+       # - ./db/coredb.sql:/docker-entrypoint-initdb.d/12_create_tables.sql
+    hostname:
+      pgdb
+    ports:
+      - "99:5432"
+
+  rabbitmq:
+    image: rabbitmq:latest
+    restart: always
+
+  mongodb:
+    image: mongo:4.4
+    restart: always
+
+  bahisweb:
+    build: ./bahisweb
+    depends_on:
+      - pgdb
+      - mongodb
+
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "88:80"
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d
+
+volumes:
+  db:
+    driver: local
