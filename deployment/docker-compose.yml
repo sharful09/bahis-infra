@@ -24,6 +24,8 @@ services:
 
   bahisweb:
     build: ./bahisweb
+    volumes:
+      - ./bahisweb/src_bahis/:/src_bahis
     depends_on:
       - pgdb
       - mongodb

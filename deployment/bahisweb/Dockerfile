@@ -1,6 +1,7 @@
 #base image
 FROM ubuntu:20.04
 
+#TODO move all of those into an env file specified in docker-compose, move passwords to secrets
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BAHIS_ENV=/opt/envbahis
 ENV PATH="$BAHIS_ENV/bin:$PATH"
@@ -27,17 +28,24 @@ ENV DJANGO_SITE_ID="1"
 ENV DJANGO_SECRET_KEY="P2Nerc3oG2564z5mHTGUhAoh2CzOMVenWBNMNWgWU796n"
 ENV CLEAN_APT_CACHE="True"
 
+#db settings
+ENV MONGO_DB_NAME="coredb"
+ENV MONGO_DB_USER=""
+ENV MONGO_DB_PASSWORD="PASSWORD"
+ENV KOBO_SERVER_HOST="localhost"
+ENV KOBO_BUILDER_HOST="localhost/form-renderer"
+ENV MONGO_DB_HOST="mongodb"
 
 RUN apt update
 
-RUN apt -y install net-tools python-dev gfortran libatlas-base-dev libjpeg-dev python-numpy   python-pandas-doc openjdk-8-jre zlib1g-dev binutils libproj-dev libxslt1-dev libxslt1-dev libxml2-dev libmemcached-dev python-lxml  virtualenv nodejs  uuid-dev libcap-dev libpq-dev   python-dev build-essential uwsgi  unzip  wget ca-certificates git postgresql-client
+RUN apt -y install net-tools python-dev gfortran libatlas-base-dev libjpeg-dev python-numpy   python-pandas-doc openjdk-8-jre zlib1g-dev binutils libproj-dev libxslt1-dev libxslt1-dev libxml2-dev libmemcached-dev python-lxml  virtualenv nodejs  uuid-dev libcap-dev libpq-dev   python-dev build-essential uwsgi  unzip  wget ca-certificates git postgresql-client binutils libproj-dev gdal-bin
 
 RUN virtualenv -p /usr/bin/python2.7 $BAHIS_ENV
 
+RUN apt -y update
 #    https://stackoverflow.com/questions/53904157/numpy-ufunc-has-the-wrong-size-try-recompiling-even-with-the-latest-pandas-and#54010510
+# must be installed separately first, it isn't enough to have it earlier in requirements file
 RUN pip install numpy==1.15.2
-
-#copy requirements file to image
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
@@ -45,34 +53,28 @@ RUN pip install -r requirements.txt
 COPY libgeos.py_fix .
 RUN mv libgeos.py_fix $BAHIS_ENV/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py
 
-#temporary measure
-COPY coredb.sql .
-
 #Don't ask... uwsgi with python2 plugin, what a disaster
 RUN wget https://projects.unbit.it/downloads/uwsgi-2.0.20.tar.gz
 RUN tar xf uwsgi-2.0.20.tar.gz
 RUN cd uwsgi-2.0.20 && make PROFILE=nolang && PYTHON=python2.7 ./uwsgi --build-plugin "plugins/python python27"
-#Temporary measure until we fix coredb.sql script
+
 RUN cd ..
 
 WORKDIR /uwsgi-2.0.20
+
+
+ADD https://api.github.com/repos/road86/bahis-serve/git/refs/heads/master version.json
+RUN git clone https://github.com/road86/bahis-serve.git $SRC_DIR
+#use the following to edit code locally
+# RUN mkdir $SRC_DIR
+# COPY src $SRC_DIR
+
 COPY bahis.ini .
 
-
-ADD https://api.github.com/repos/mixmixmix/bahis-serve-tmp/git/refs/heads/master version.json
-RUN git clone https://github.com/mixmixmix/bahis-serve-tmp.git $SRC_DIR
-
-ENV MONGO_DB_HOST="mongodb"
-ENV MONGO_DB_NAME="coredb"
-ENV MONGO_DB_USER=""
-ENV MONGO_DB_PASSWORD="PASSWORD"
-
-ENV KOBO_SERVER_HOST="localhost"
-ENV KOBO_BUILDER_HOST="localhost/form-renderer"
-
-# more instll for geoslib
-RUN apt -y install binutils libproj-dev gdal-bin
+COPY celeryd_bahis .
+COPY celeryd_bahis_conf .
+RUN chmod +x celeryd_bahis
 
 #CMD ["./uwsgi", "bahis.ini"]
 #we need 30s delay to give databases time to initialise
-CMD sleep 30 && ./uwsgi bahis.ini
+CMD  ./celeryd_bahis start && sleep 30 && ./uwsgi bahis.ini
