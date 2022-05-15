@@ -63,7 +63,7 @@ RUN cd ..
 WORKDIR /uwsgi-2.0.20
 
 
-ADD https://api.github.com/road86/bahis-serve/git/refs/heads/main version.json
+ADD https://api.github.com/repos/road86/bahis-serve/git/refs/heads/main version.json
 RUN git clone https://github.com/road86/bahis-serve.git $SRC_DIR
 #use the following to edit code locally
 # RUN mkdir $SRC_DIR
