@@ -7,8 +7,8 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - db:/var/lib/postgresql/data
-      - ./pgdb/init.sql:/docker-entrypoint-initdb.d/11_create_users.sql
-      - ./pgdb/tmp.sql:/docker-entrypoint-initdb.d/12_create_tables.sql
+      # - ./pgdb/init.sql:/docker-entrypoint-initdb.d/11_create_users.sql
+      # - ./pgdb/tmp.sql:/docker-entrypoint-initdb.d/12_create_tables.sql
     hostname:
       pgdb
     ports:
