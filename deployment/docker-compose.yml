@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.3'
 services:
   pgdb:
     image: postgis/postgis
@@ -24,8 +24,8 @@ services:
 
   bahisweb:
     build: ./bahisweb
-    volumes:
-      - ./bahisweb/src_bahis/:/src_bahis
+#   volumes:
+#      - ./bahisweb/src_bahis/:/src_bahis
     depends_on:
       - pgdb
       - mongodb
