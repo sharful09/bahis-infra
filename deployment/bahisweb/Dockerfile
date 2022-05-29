@@ -1,7 +1,7 @@
 #base image
 FROM ubuntu:20.04
 
-#TODO move all of those into an env file specified in docker-compose, move passwords to secrets
+#Env variables which are needed for build need to be in this file or passed as command line arguments. Sadly....
 ENV DEBIAN_FRONTEND=noninteractive
 ENV BAHIS_ENV=/opt/envbahis
 ENV PATH="$BAHIS_ENV/bin:$PATH"
@@ -69,9 +69,9 @@ WORKDIR /uwsgi-2.0.20
 COPY bahis.ini .
 
 COPY celeryd_bahis .
-COPY celeryd_bahis_conf .
 RUN chmod +x celeryd_bahis
+RUN export > all_env_vars.sh
 
 #CMD ["./uwsgi", "bahis.ini"]
-#we need 30s delay to give databases time to initialise
-CMD  ./celeryd_bahis start && sleep 30 && ./uwsgi bahis.ini
+#we need 10s delay to give databases time to initialise
+CMD  sleep 10 && ./celeryd_bahis start && ./uwsgi bahis.ini

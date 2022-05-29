@@ -26,6 +26,9 @@ services:
     build: ./bahisweb
 #   volumes:
 #      - ./bahisweb/src_bahis/:/src_bahis
+    env_file:
+      - ./bahisweb/bahis.env
+      # - ./bahisweb/secrets.env
     depends_on:
       - pgdb
       - mongodb
