@@ -58,8 +58,8 @@ RUN wget https://projects.unbit.it/downloads/uwsgi-2.0.20.tar.gz
 RUN tar xf uwsgi-2.0.20.tar.gz
 RUN cd uwsgi-2.0.20 && make PROFILE=nolang && PYTHON=python2.7 ./uwsgi --build-plugin "plugins/python python27"
 
-ADD https://api.github.com/repos/road86/bahis-serve/git/refs/heads/main version.json
-RUN git clone https://github.com/road86/bahis-serve.git $SRC_DIR
+#ADD https://api.github.com/repos/road86/bahis-serve/git/refs/heads/main version.json
+#RUN git clone https://github.com/road86/bahis-serve.git $SRC_DIR
 
 #use the following to edit code locally
 # RUN mkdir $SRC_DIR
