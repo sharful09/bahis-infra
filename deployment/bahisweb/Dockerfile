@@ -74,4 +74,4 @@ RUN export > all_env_vars.sh
 
 #CMD ["./uwsgi", "bahis.ini"]
 #we need 10s delay to give databases time to initialise
-CMD  sleep 10 && ./celeryd_bahis start && ./uwsgi bahis.ini
+CMD sleep 10 && ./celeryd_bahis start && ./uwsgi bahis.ini
