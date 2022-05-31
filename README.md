@@ -28,6 +28,8 @@ sudo apt-get install docker-compose
 ```
 
 ## Run
+First you need to clone bahis-serve in the same directory as this repository.
+`cd .. && git clone https://github.com/road86/bahis-serve`
 in the background or tmux
 ```
 cd bahis-infra/deployment/
