@@ -24,14 +24,16 @@ services:
 
   bahisweb:
     build: ./bahisweb
+    volumes:
+     - ../../bahis-serve/:/src_bahis
     depends_on:
       - pgdb
       - mongodb
 
   frender:
     build: ./frender
-    ports:
-      - "80:3000"
+    # ports:
+    #   - "80:3000"
 
 
   nginx:
