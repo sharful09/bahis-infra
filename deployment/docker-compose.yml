@@ -30,8 +30,8 @@ services:
       - pgdb
       - mongodb
 
-  # frender:
-  #   build: ./frender
+  frender:
+    build: ./frender
 
   nginx:
     image: nginx:latest
