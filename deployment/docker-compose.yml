@@ -26,12 +26,12 @@ services:
     build: ./bahisweb
     volumes:
      - ../../bahis-serve/:/src_bahis
-#    env_file:
-#      - ./bahisweb/bahis.env
-      # - ./bahisweb/secrets.env
     depends_on:
       - pgdb
       - mongodb
+
+  # frender:
+  #   build: ./frender
 
   nginx:
     image: nginx:latest

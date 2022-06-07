@@ -32,8 +32,6 @@ ENV CLEAN_APT_CACHE="True"
 ENV MONGO_DB_NAME="coredb"
 ENV MONGO_DB_USER=""
 ENV MONGO_DB_PASSWORD="PASSWORD"
-ENV KOBO_SERVER_HOST="localhost"
-ENV KOBO_BUILDER_HOST="localhost/form-renderer"
 ENV MONGO_DB_HOST="mongodb"
 
 RUN apt update
@@ -71,6 +69,10 @@ COPY bahis.ini .
 COPY celeryd_bahis .
 RUN chmod +x celeryd_bahis
 RUN export > all_env_vars.sh
+
+ENV DJANGO_DEBUG = "True"
+ENV KOBO_SERVER_HOST="localhost"
+ENV KOBO_RENDERER_HOST="localhost/form-renderer"
 
 #CMD ["./uwsgi", "bahis.ini"]
 #we need 10s delay to give databases time to initialise
