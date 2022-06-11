@@ -1,7 +1,9 @@
 version: '3.3'
 services:
   pgdb:
-    image: postgis/postgis
+    # image: postgis/postgis
+    # the following build with postgis for arm
+    image: ghcr.io/baosystems/postgis:13-3.2
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
