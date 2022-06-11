@@ -2,7 +2,6 @@ version: '3.3'
 services:
   pgdb:
     image: postgis/postgis
-    restart: always
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
@@ -16,11 +15,11 @@ services:
 
   rabbitmq:
     image: rabbitmq:latest
-    restart: always
 
   mongodb:
     image: mongo:4.4
-    restart: always
+    ports:
+      - "97:27017"
 
   bahisweb:
     build: ./bahisweb
@@ -35,7 +34,6 @@ services:
 
   nginx:
     image: nginx:latest
-    restart: always
     ports:
       - "80:80"
     volumes:
