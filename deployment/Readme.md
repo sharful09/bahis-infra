@@ -2,7 +2,7 @@
 
 ```
 sudo docker_compose build
-sudp docker_compose up
+sudo docker_compose up
 ```
 
 To initialise database for the first time: 
