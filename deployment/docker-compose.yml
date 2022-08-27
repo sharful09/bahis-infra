@@ -31,14 +31,11 @@ services:
       - pgdb
       - mongodb
 
-  frender:
-    build: ./frender
-
   nginx:
     restart: always
     image: nginx:latest
     ports:
-      - "80:80"
+      - "83:80" #we are using mitmproxy to monitor traffic on port 80
     volumes:
       - ./nginx/:/etc/nginx/conf.d
       - ../../bahis-serve/:/src_bahis
