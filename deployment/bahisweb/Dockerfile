@@ -70,7 +70,6 @@ COPY celeryd_bahis .
 RUN chmod +x celeryd_bahis
 RUN export > all_env_vars.sh
 
-ENV DJANGO_DEBUG = "False"
 ENV KOBO_SERVER_HOST="localhost"
 ENV KOBO_RENDERER_HOST="localhost/form-renderer"
 
