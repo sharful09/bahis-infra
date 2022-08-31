@@ -52,8 +52,8 @@ COPY libgeos.py_fix .
 RUN mv libgeos.py_fix $BAHIS_ENV/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py
 
 #Don't ask... uwsgi with python2 plugin, what a disaster
-RUN wget https://projects.unbit.it/downloads/uwsgi-2.0.20.tar.gz
-RUN tar xf uwsgi-2.0.20.tar.gz
+RUN wget https://github.com/unbit/uwsgi/archive/refs/tags/2.0.20.tar.gz
+RUN tar xf 2.0.20.tar.gz
 RUN cd uwsgi-2.0.20 && make PROFILE=nolang && PYTHON=python2.7 ./uwsgi --build-plugin "plugins/python python27"
 
 #ADD https://api.github.com/repos/road86/bahis-serve/git/refs/heads/main version.json
@@ -63,7 +63,7 @@ RUN cd uwsgi-2.0.20 && make PROFILE=nolang && PYTHON=python2.7 ./uwsgi --build-p
 # RUN mkdir $SRC_DIR
 # COPY src $SRC_DIR
 WORKDIR /uwsgi-2.0.20
-
+ENV test 3
 COPY bahis.ini .
 
 COPY celeryd_bahis .
