@@ -63,14 +63,14 @@ RUN cd uwsgi-2.0.20 && make PROFILE=nolang && PYTHON=python2.7 ./uwsgi --build-p
 # RUN mkdir $SRC_DIR
 # COPY src $SRC_DIR
 WORKDIR /uwsgi-2.0.20
-ENV test 3
+
 COPY bahis.ini .
 
 COPY celeryd_bahis .
 RUN chmod +x celeryd_bahis
 RUN export > all_env_vars.sh
 
-ENV DJANGO_DEBUG = "True"
+ENV DJANGO_DEBUG = "False"
 ENV KOBO_SERVER_HOST="localhost"
 ENV KOBO_RENDERER_HOST="localhost/form-renderer"
 
