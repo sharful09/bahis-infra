@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  rabbitmq:
+    image: rabbitmq:latest
+
+  mongodb:
+    image: mongo:4.4
+    ports:
+      - "97:27017"
+
+  bahisweb:
+    build: ./bahisweb
+    volumes:
+     - ../../bahis-serve/:/src_bahis
+    depends_on:
+      - mongodb
+
+  nginx:
+    restart: always
+    image: nginx:latest
+    ports:
+      - "83:80" #we are using mitmproxy to monitor traffic on port 80
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d
+      - ../../bahis-serve/:/src_bahis
+
+volumes:
+  db:
+    driver: local
