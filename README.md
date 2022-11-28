@@ -23,7 +23,7 @@ echo \
 sudo apt-get update 
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-compose postgresql-client
 
-
+```
 ## Run
 First you need to clone bahis-serve in the same directory as this repository.
 `cd .. && git clone https://github.com/road86/bahis-serve`
