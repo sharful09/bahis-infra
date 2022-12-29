@@ -72,6 +72,7 @@ RUN export > all_env_vars.sh
 
 ENV KOBO_SERVER_HOST="localhost"
 ENV KOBO_RENDERER_HOST="localhost/form-renderer"
+ENV DJANGO_DEBUG="False"
 
 #CMD ["./uwsgi", "bahis.ini"]
 #we need 10s delay to give databases time to initialise
